@@ -1,0 +1,39 @@
+name: ML Pipeline
+
+on:
+  workflow_dispatch:
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python environment
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Download CollegeDistance.csv
+        run: |
+          curl -o CollegeDistance.csv https://vincentarelbundock.github.io/Rdatasets/csv/AER/CollegeDistance.csv
+
+      - name: Run script
+        run: |
+          python main.py
+          
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "s24732@pjwstk.edu.pl"
+          git config --local user.name "AleksandrowiczAdam"
+          git add charts  # Make sure to add the directory you created
+          git commit -m "Add generated plots" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided token  
