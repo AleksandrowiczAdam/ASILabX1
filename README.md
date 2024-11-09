@@ -21,3 +21,26 @@ score_labels = ['low', 'medium', 'high']
 ```
 
 Stworzymy trzy grupy dla zmiennej score odpowiadające kolejno niskiemu, średniemu i wysokiemu wynikowi.
+
+Do klasyfikacji użyto model RandomForestClassifier.
+```python
+rf_clf = RandomForestClassifier(n_estimators=100, random_state=42)
+```
+
+Model osiągnał dokładność 0.5091 na danych testowych.
+
+## Wykresy
+
+![confusion matrix](charts/confusion_matrix.png)
+
+Jak widać na powyższej macierzy pomyłek, model najlepiej poradził sobie z predykcją score 0 albo 2. Wartość 1 niestety często wpadała w grupę 0 albo 2.
+
+![roc](charts/roc.png)
+
+Analizując powyższy wykres ROC widzimy, że model jest dla całego zakresu wartości nieco lepszy niż losowy strzał.
+
+![feature importance](charts/feature_importance.png)
+
+Patrząc na powyższy wykres widać, że oprócz 'education' duże znaczenie dla predykcji miały zmiennie 'tuition', 'wage', 'distance' i 'unemp'
+
+
